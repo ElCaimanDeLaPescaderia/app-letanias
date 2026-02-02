@@ -1,0 +1,32 @@
+body { font-family: sans-serif; text-align: center; padding: 20px; background-color: #f4f4f9; }
+
+#input-letania {
+    padding: 10px;
+    font-size: 1.2rem;
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.celda {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+    min-height: 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    color: transparent; /* Oculto hasta que se adivine */
+}
+
+.celda.descubierta {
+    color: #333;
+    background-color: #e2f3e5;
+    border-color: #2ecc71;
+}
