@@ -1,32 +1,36 @@
-body { font-family: sans-serif; text-align: center; padding: 20px; background-color: #f4f4f9; }
-
-#input-letania {
-    padding: 10px;
-    font-size: 1.2rem;
-    width: 300px;
-    margin-bottom: 20px;
+/* Estilos generales para centrar todo y que se vea limpio */
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    text-align: center; 
+    padding: 20px; 
+    background-color: #f4f4f9; 
 }
 
+/* El Grid es la clave: crea columnas automáticas que se ajustan al ancho de la pantalla */
 .grid-container {
     display: grid;
+    /* Crea columnas de al menos 200px. Si cabe otra, la pone al lado. */
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 10px;
     max-width: 1000px;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
+/* Estilo de cada cuadrito de letanía */
 .celda {
     border: 1px solid #ccc;
-    padding: 10px;
+    padding: 15px;
     background-color: #fff;
-    min-height: 20px;
-    border-radius: 4px;
+    border-radius: 8px;
     font-weight: bold;
-    color: transparent; /* Oculto hasta que se adivine */
+    /* TRUCO: El texto está ahí, pero es transparente (invisible) */
+    color: transparent; 
+    transition: all 0.3s ease; /* Para que el cambio de color sea suave */
 }
 
+/* Cuando JS le añada esta clase, la letanía se volverá visible */
 .celda.descubierta {
-    color: #333;
-    background-color: #e2f3e5;
-    border-color: #2ecc71;
+    color: #2c3e50;
+    background-color: #d4edda; /* Un verde clarito de éxito */
+    border-color: #28a745;
 }
