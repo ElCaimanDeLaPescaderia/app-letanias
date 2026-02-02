@@ -42,3 +42,34 @@ input.addEventListener('input', () => {
         }
     });
 });
+
+
+// REINICIAR JUEGO
+// 1. Obtenemos la referencia al botón
+const btnReset = document.getElementById('btn-reset');
+
+// 2. Escuchamos el "click" en el botón
+btnReset.addEventListener('click', () => {
+    // A) Preguntar al usuario si está seguro (opcional pero recomendado)
+    if (confirm("¿Estás seguro de que quieres reiniciar el progreso?")) {
+        
+        // B) Resetear la variable de aciertos
+        aciertos = 0;
+        
+        // C) Actualizar el texto del contador
+        contadorText.innerText = `Aciertos: 0 / ${letanias.length}`;
+        
+        // D) Limpiar el cuadro de texto por si había algo escrito
+        input.value = '';
+        
+        // E) Quitar la clase "descubierta" a todas las celdas
+        // Usamos querySelectorAll para agarrar todas las celdas a la vez
+        const todasLasCeldas = document.querySelectorAll('.celda');
+        todasLasCeldas.forEach(celda => {
+            celda.classList.remove('descubierta');
+        });
+
+        // F) Poner el foco otra vez en el input para seguir jugando
+        input.focus();
+    }
+});
