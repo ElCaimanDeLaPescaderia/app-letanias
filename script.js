@@ -5,6 +5,15 @@ const letanias = [
     // (Puedes seguir añadiendo todas las demás aquí)
 ];
 
+// Esta función toma un texto y lo devuelve "limpio"
+const normalizarTexto = (texto) => {
+    return texto
+        .toLowerCase()            // Pasa todo a minúsculas
+        .trim()                   // Quita espacios al inicio y al final
+        .normalize("NFD")         // Descompone los acentos (ej: 'á' se vuelve 'a' + '´')
+        .replace(/[\u0300-\u036f]/g, ""); // Borra los símbolos de los acentos
+};
+
 // 2. Referencias a los elementos del HTML para poder manipularlos
 const contenedor = document.getElementById('tabla-contenedor');
 const input = document.getElementById('input-letania');
@@ -24,14 +33,20 @@ letanias.forEach((texto, index) => {
 // 4. El "Escuchador": Se activa cada vez que el usuario pulsa una tecla en el input
 input.addEventListener('input', () => {
     // Tomamos lo que escribió el usuario, quitamos espacios y pasamos a minúsculas
-    const valorUsuario = input.value.trim().toLowerCase();
+    //const valorUsuario = input.value.trim().toLowerCase();
+
+    // Normalizamos lo que el usuario escribe
+    const valorUsuario = normalizarTexto(input.value);
     
     // Recorremos el array de respuestas para ver si coincide con alguna
     letanias.forEach((letania, index) => {
         const celda = document.getElementById(`letania-${index}`);
+
+        // Normalizamos la letanía de la lista antes de comparar
+        const letaniaNormalizada = normalizarTexto(letania);
         
         // Comparamos: si el texto coincide Y la celda no ha sido descubierta aún
-        if (letania.toLowerCase() === valorUsuario && !celda.classList.contains('descubierta')) {
+        if (letaniaNormalizada === valorUsuario && !celda.classList.contains('descubierta')) {
             
             celda.classList.add('descubierta'); // Hacemos visible el texto mediante CSS
             input.value = '';                  // Borramos el cuadro de texto para la siguiente
