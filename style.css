@@ -49,3 +49,20 @@ body {
 #btn-reset:hover {
     background-color: #c0392b; /* Un rojo más oscuro al pasar el ratón */
 }
+
+#tiempo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+/* Una clase para cuando el tiempo se esté agotando */
+.tiempo-bajo {
+    color: #e74c3c !important; /* Rojo */
+    animation: parpadeo 1s infinite;
+}
+
+@keyframes parpadeo {
+    50% { opacity: 0.5; }
+}

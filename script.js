@@ -88,3 +88,73 @@ btnReset.addEventListener('click', () => {
         input.focus();
     }
 });
+
+let tiempoRestante = 300; // 5 minutos en segundos (5 * 60)
+let intervalo;
+let juegoIniciado = false; // Para que el tiempo empiece solo cuando el usuario escriba algo
+
+const relojDisplay = document.getElementById('reloj');
+
+// Función para formatear segundos a MM:SS
+function actualizarReloj() {
+    const minutos = Math.floor(tiempoRestante / 60);
+    const segundos = tiempoRestante % 60;
+    
+    // El paddingStart(2, '0') hace que el 5 se vea como 05
+    relojDisplay.innerText = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+    
+    // Si queda menos de 30 segundos, ponemos el reloj en rojo
+    if (tiempoRestante <= 30) {
+        relojDisplay.parentElement.classList.add('tiempo-bajo');
+    }
+}
+
+function iniciarTemporizador() {
+    intervalo = setInterval(() => {
+        tiempoRestante--;
+        actualizarReloj();
+
+        if (tiempoRestante <= 0) {
+            clearInterval(intervalo);
+            finalizarJuego(false); // Perdió por tiempo
+        }
+    }, 1000);
+}
+
+function finalizarJuego(victoria) {
+    input.disabled = true; // Bloqueamos el cuadro de texto
+    if (victoria) {
+        alert("¡Felicidades! Has completado todas las letanías.");
+    } else {
+        alert("¡Se acabó el tiempo! Revisa cuáles te faltaron.");
+        // Opcional: mostrar las que faltaron en rojo
+    }
+}
+
+// MODIFICACIÓN: Detectar el primer carácter para iniciar el reloj
+input.addEventListener('input', () => {
+    if (!juegoIniciado && input.value.length > 0) {
+        juegoIniciado = true;
+        iniciarTemporizador();
+    }
+    
+    // ... aquí va el código de comparación que ya teníamos ...
+    // (Dentro del IF donde sumas aciertos, añade esto):
+    if (aciertos === letanias.length) {
+        clearInterval(intervalo);
+        finalizarJuego(true);
+    }
+});
+
+// MODIFICACIÓN EN EL RESET:
+btnReset.addEventListener('click', () => {
+    if (confirm("¿Reiniciar?")) {
+        clearInterval(intervalo);
+        tiempoRestante = 300;
+        juegoIniciado = false;
+        input.disabled = false;
+        relojDisplay.parentElement.classList.remove('tiempo-bajo');
+        actualizarReloj();
+        // ... resto de tu código de reset ...
+    }
+});
