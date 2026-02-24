@@ -1,8 +1,23 @@
 // Nuestra base de datos de respuestas
 const letanias = [
     "Santa María", "Santa Madre de Dios", "Santa Virgen de las Vírgenes",
-    "Madre de Cristo", "Madre de la Iglesia"
-    // (Puedes seguir añadiendo todas las demás aquí)
+    "Madre de Cristo", "Madre de la Iglesia", "Madre de la Divina Gracia",
+    "Madre de la Esperanza", "Madre Purísima", "Madre Castísima",
+    "Madre Siempre Virgen", "Madre Inmaculada", "Madre Amable",
+    "Madre Admirable", "Madre del Buen Consejo", "Madre del Creador",
+    "Madre del Salvador", "Virgen Prudentísima", "Virgen Venerable",
+    "Virgen Predicable", "Virgen Poderosa", "Virgen Clemente",
+    "Virgen Fiel", "Espejo de Justicia", "Trono de la Sabiduría",
+    "Causa de Nuestra Alegría", "Vaso Espiritual", "Vaso Precioso de Honor",
+    "Vaso Insigne de Devoción", "Rosa Mística", "Torre de David",
+    "Torre de Marfil", "Casa de Oro", "Arca de la Alianza",
+    "Puerta del Cielo", "Estrella de la Mañana", "Salud de los Enfermos",
+    "Refugio de los Pecadores", "Consuelo de los Migrantes", "Consoladora de los Afligidos",
+    "Auxilio de los Cristianos", "Reina de los Ángeles", "Reina de los Patriarcas",
+    "Reina de los Profetas", "Reina de los Apóstoles", "Reina de los Mártires",
+    "Reina de los Confesores", "Reina de las Vírgenes", "Reina de todos los Santos",
+    "Reina Concebida sin Pecado Original", "Reina Asunta a los Cielos",
+    "Reina del Santísimo Rosario", "Reina de la Familia", "Reina de la Paz"
 ];
 
 // Variables globales
@@ -53,6 +68,7 @@ function iniciarTemporizador() {
 
         if (tiempoRestante <= 0) {
             clearInterval(intervalo);
+            revelarRespuestasFaltantes();
             finalizarJuego(false); // Perdió por tiempo
         }
     }, 1000);
@@ -63,7 +79,7 @@ function finalizarJuego(victoria) {
     if (victoria) {
         alert("¡Felicidades! Has completado todas las letanías.");
     } else {
-        alert("¡Se acabó el tiempo! Revisa cuáles te faltaron.");
+        alert("¡Se acabó el tiempo! Aquí tienes las respuestas que te faltaron.");
         // Opcional: mostrar las que faltaron en rojo
     }
 }
@@ -76,6 +92,20 @@ checkTemporizador.addEventListener('change', () => {
         relojDisplay.innerText = "Infinito";
     }
 });
+
+function revelarRespuestasFaltantes() {
+    // 1. Detenemos el tiempo y bloqueamos el teclado
+    clearInterval(intervalo);
+    input.disabled = true;
+
+    // 2. Buscamos todas las celdas y revelamos las que no fueron adivinadas
+    const todasLasCeldas = document.querySelectorAll('.celda');
+    todasLasCeldas.forEach(celda => {
+        if (!celda.classList.contains('descubierta')) {
+            celda.classList.add('revelada'); // Usamos la clase roja que creamos antes
+        }
+    });
+}
 
 
 // FUNCIÓN DE INICIO: Crea visualmente los huecos de la tabla al cargar la página
@@ -177,26 +207,7 @@ btnReset.addEventListener('click', () => {
 // Botón de Rendirse
 btnRendirse.addEventListener('click', () => {
     // Solo permitimos rendirse si el juego ya ha empezado
-    if (!juegoIniciado) return;
-
-    if (confirm("¿Quieres rendirte y ver las respuestas que faltan?")) {
-        // 1. Detener el tiempo
-        clearInterval(intervalo);
-
-        // 2. Bloquear el input para que no se pueda escribir más
-        input.disabled = true;
-
-        // 3. Buscar todas las celdas
-        const todasLasCeldas = document.querySelectorAll('.celda');
-
-        todasLasCeldas.forEach(celda => {
-            // Si la celda NO ha sido descubierta por el usuario
-            if (!celda.classList.contains('descubierta')) {
-                // La mostramos con el estilo de "revelada"
-                celda.classList.add('revelada');
-            }
-        });
-
-        alert("Juego terminado. ¡Sigue practicando para la próxima!");
+    if (juegoIniciado && confirm("¿Quieres rendirte y ver las respuestas?")) {
+        revelarRespuestasFaltantes();
     }
 });

@@ -26,6 +26,10 @@ body {
     /* TRUCO: El texto está ahí, pero es transparente (invisible) */
     color: transparent; 
     transition: all 0.3s ease; /* Para que el cambio de color sea suave */
+    font-size: 0.85rem; /* Un poco más pequeña para que quepan las largas */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Cuando JS le añada esta clase, la letanía se volverá visible */
