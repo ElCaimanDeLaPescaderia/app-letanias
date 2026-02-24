@@ -72,3 +72,21 @@ body {
     font-size: 0.9rem;
     color: #555;
 }
+
+#btn-rendirse {
+    padding: 10px 20px;
+    background-color: #f39c12; /* Naranja */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* Clase para mostrar las respuestas que NO adivinaste */
+.celda.revelada {
+    color: #e74c3c; /* Rojo para el texto */
+    background-color: #fdeaea; /* Fondo rojizo muy suave */
+    border-color: #e74c3c;
+    font-style: italic;
+}

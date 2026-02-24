@@ -19,6 +19,7 @@ const contenedor = document.getElementById('tabla-contenedor');
 const input = document.getElementById('input-letania');
 const contadorText = document.getElementById('contador');
 const checkTemporizador = document.getElementById('check-temporizador');
+const btnRendirse = document.getElementById('btn-rendirse');
 
 let aciertos = 0;
 
@@ -187,4 +188,42 @@ checkTemporizador.addEventListener('change', () => {
     } else {
         relojDisplay.innerText = "Infinito";
     }
+});
+
+btnRendirse.addEventListener('click', () => {
+    // Solo permitimos rendirse si el juego ya ha empezado
+    if (!juegoIniciado) return;
+
+    if (confirm("¿Quieres rendirte y ver las respuestas que faltan?")) {
+        // 1. Detener el tiempo
+        clearInterval(intervalo);
+        
+        // 2. Bloquear el input para que no se pueda escribir más
+        input.disabled = true;
+        
+        // 3. Buscar todas las celdas
+        const todasLasCeldas = document.querySelectorAll('.celda');
+        
+        todasLasCeldas.forEach(celda => {
+            // Si la celda NO ha sido descubierta por el usuario
+            if (!celda.classList.contains('descubierta')) {
+                // La mostramos con el estilo de "revelada"
+                celda.classList.add('revelada');
+            }
+        });
+
+        alert("Juego terminado. ¡Sigue practicando para la próxima!");
+    }
+});
+
+btnReset.addEventListener('click', () => {
+    // ... (dentro del if confirm) ...
+    input.disabled = false; // Importante: volver a habilitar el teclado
+    
+    const todasLasCeldas = document.querySelectorAll('.celda');
+    todasLasCeldas.forEach(celda => {
+        celda.classList.remove('descubierta');
+        celda.classList.remove('revelada'); // Limpiar también las reveladas
+    });
+    // ...
 });
