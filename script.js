@@ -18,6 +18,7 @@ const normalizarTexto = (texto) => {
 const contenedor = document.getElementById('tabla-contenedor');
 const input = document.getElementById('input-letania');
 const contadorText = document.getElementById('contador');
+const checkTemporizador = document.getElementById('check-temporizador');
 
 let aciertos = 0;
 
@@ -135,7 +136,16 @@ function finalizarJuego(victoria) {
 input.addEventListener('input', () => {
     if (!juegoIniciado && input.value.length > 0) {
         juegoIniciado = true;
-        iniciarTemporizador();
+
+        // BLOQUEO: Una vez que empieza el juego, no dejamos cambiar el modo
+        checkTemporizador.disabled = true;
+
+        // SOLO iniciamos el reloj si la casilla está marcada
+        if (checkTemporizador.checked) {
+            iniciarTemporizador();
+        } else {
+            relojDisplay.innerText = "Infinito";
+        }
     }
     
     // ... aquí va el código de comparación que ya teníamos ...
@@ -153,8 +163,28 @@ btnReset.addEventListener('click', () => {
         tiempoRestante = 300;
         juegoIniciado = false;
         input.disabled = false;
+
+        // Volvemos a habilitar el checkbox para que el usuario elija modo otra vez
+        checkTemporizador.disabled = false;
+
+        // Si estaba en infinito, volvemos a poner el texto de tiempo
+        if (checkTemporizador.checked) {
+            actualizarReloj();
+        } else {
+            relojDisplay.innerText = "Infinito";
+        }
+
         relojDisplay.parentElement.classList.remove('tiempo-bajo');
         actualizarReloj();
         // ... resto de tu código de reset ...
+    }
+});
+
+// Cambiar automáticamente a "Infinito" al desmarcar la casilla de reloj antes de empezar a jugar
+checkTemporizador.addEventListener('change', () => {
+    if (checkTemporizador.checked) {
+        actualizarReloj();
+    } else {
+        relojDisplay.innerText = "Infinito";
     }
 });
